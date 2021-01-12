@@ -1,4 +1,5 @@
 const { app, BrowserWindow } = require('electron')
+const { buildTrayIcon } = require('./trayIcon');
 
 function createWindow () {
   const win = new BrowserWindow({
@@ -10,6 +11,8 @@ function createWindow () {
   })
 
   win.loadFile('index.html')
+
+  buildTrayIcon(win);
 }
 
 app.whenReady().then(createWindow)

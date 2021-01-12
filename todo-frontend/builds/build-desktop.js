@@ -22,11 +22,11 @@ console.log(chalk.green('build angular'));
 const angularBuildCommand = `ng build --prod --base-href ${BASE_HREF} --output-path=${OUTPUT_TEMP_PATH}`;
 shell.exec(angularBuildCommand);
 
-// COPY MOBILE ASSETS
+// COPY ASSETS
 console.log(chalk.green('copy desktop assets'));
 shell.cp('-r', `${DESKTOP_ASSETS}`, `${OUTPUT_TEMP_PATH}`);
 
-// BUILD MOBILE
+// BUILD DESKTOP
 console.log(chalk.green('build desktop'));
 shell.exec(
   `electron-packager ${OUTPUT_TEMP_PATH} --electronVersion=${ELECTRON_VERSION} --overwrite --icon=${ICON_PATH} --platform=win32,linux --out=${OUTPUT_DIST_PATH}`

@@ -6,19 +6,13 @@ let buildTrayIcon = (mainWindow) => {
   let trayIconPath = path.join(__dirname, 'icon.ico');
 
   tray = new Tray(trayIconPath);
-  tray.setToolTip('gatherr');
+  tray.setToolTip('my-electron-app');
 
   var contextMenu = Menu.buildFromTemplate([
     {
       label: 'Open application',
       click: function () {
         mainWindow.show();
-      },
-    },
-    {
-      label: 'Create Group',
-      click: function () {
-        mainWindow.webContents.send('navigate', '/groups/create');
       },
     },
     {
