@@ -4,8 +4,8 @@
 
 export const environment = {
   production: false,
-  apiUrl: `https://localhost:5001/api/v1/`,
-  serverUrl: `https://localhost:5001/`
+  apiUrl: `https://sampletodobackend.azurewebsites.net/api/v1/`,
+  serverUrl: `https://sampletodobackend.azurewebsites.net/`,
 };
 
 /*

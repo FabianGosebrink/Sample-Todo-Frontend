@@ -35,10 +35,12 @@ export class SignalRService {
   registerOnEvents() {
     this.connection.on('todo-added', (item) => {
       console.log('itemAdded');
+      this.itemAddedInternal.next(item);
     });
 
     this.connection.on('todo-updated', (item) => {
       console.log('itemUpdated');
+      this.itemUpdatedInternal.next(item);
     });
   }
 }
