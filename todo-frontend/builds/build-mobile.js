@@ -39,7 +39,6 @@ shell.cd(`../..`);
 console.log(chalk.green('copy img assets & cordova res'));
 shell.mkdir('-p', `${OUTPUT_RESOURCES_PATH}`);
 shell.cp('-r', `${IMG_ASSETS}`, `${OUTPUT_RESOURCES_PATH}`);
-
 shell.cd(`${OUTPUT_TEMP_PATH}`);
 shell.exec(`cordova-res`);
 shell.cd(`../..`);
