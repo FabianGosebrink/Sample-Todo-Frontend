@@ -13,6 +13,7 @@ export class SignalRService {
   private connection: HubConnection;
   private itemUpdatedInternal = new Subject<Todo>();
   private itemAddedInternal = new Subject<Todo>();
+  private itemDeletedInternal = new Subject<string>();
 
   get itemUpdated() {
     return this.itemUpdatedInternal.asObservable();
@@ -20,6 +21,10 @@ export class SignalRService {
 
   get itemAdded() {
     return this.itemAddedInternal.asObservable();
+  }
+
+  get itemDeleted() {
+    return this.itemDeletedInternal.asObservable();
   }
 
   constructor() {
@@ -41,6 +46,11 @@ export class SignalRService {
     this.connection.on('todo-updated', (item) => {
       console.log('itemUpdated');
       this.itemUpdatedInternal.next(item);
+    });
+
+    this.connection.on('todo-deleted', (id) => {
+      console.log('todo-deleted', id);
+      this.itemDeletedInternal.next(id);
     });
   }
 }

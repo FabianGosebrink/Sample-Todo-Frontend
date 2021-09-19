@@ -20,7 +20,7 @@ shell.echo('Deleted temp and dist folders...');
 
 // BUILD ANGULAR
 console.log(chalk.green('build angular'));
-const angularBuildCommand = `ng build --prod --base-href ${BASE_HREF} --output-path=${OUTPUT_BUILD_PATH}`;
+const angularBuildCommand = `ng build --base-href ${BASE_HREF} --output-path=${OUTPUT_BUILD_PATH}`;
 shell.exec(angularBuildCommand);
 
 // COPY MOBILE ASSETS

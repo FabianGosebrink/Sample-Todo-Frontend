@@ -19,7 +19,7 @@ shell.echo('Deleted temp and dist folders...');
 
 // BUILD ANGULAR
 console.log(chalk.green('build angular'));
-const angularBuildCommand = `ng build --prod --base-href ${BASE_HREF} --output-path=${OUTPUT_TEMP_PATH}`;
+const angularBuildCommand = `ng build --base-href ${BASE_HREF} --output-path=${OUTPUT_TEMP_PATH}`;
 shell.exec(angularBuildCommand);
 
 // COPY ASSETS
@@ -29,7 +29,7 @@ shell.cp('-r', `${DESKTOP_ASSETS}`, `${OUTPUT_TEMP_PATH}`);
 // BUILD DESKTOP
 console.log(chalk.green('build desktop'));
 shell.exec(
-  `electron-packager ${OUTPUT_TEMP_PATH} --electronVersion=${ELECTRON_VERSION} --overwrite --icon=${ICON_PATH} --platform=win32,linux --out=${OUTPUT_DIST_PATH}`
+  `npx electron-packager ${OUTPUT_TEMP_PATH} --electronVersion=${ELECTRON_VERSION} --overwrite --icon=${ICON_PATH} --platform=win32,linux --out=${OUTPUT_DIST_PATH}`
 );
 
 console.log(chalk.green('DONE'));

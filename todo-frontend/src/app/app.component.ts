@@ -19,16 +19,26 @@ export class AppComponent implements OnInit {
     signalrService: SignalRService,
     private readonly http: HttpClient
   ) {
-    signalrService.itemAdded.subscribe((item) => this.items.push(item));
-    signalrService.itemUpdated.subscribe((item) => {
-      this.items = this.items.filter((x) => x.id !== item.id);
-      this.items.push(item);
+    signalrService.itemAdded.subscribe((addedItem) => {
+      const mergedItems = [...this.items, addedItem];
+      this.setSortedItems(mergedItems);
+    });
+
+    signalrService.itemUpdated.subscribe((updatedItem) => {
+      const filteredItems = this.items.filter((x) => x.id !== updatedItem.id);
+      const mergedItems = [...filteredItems, updatedItem];
+      this.setSortedItems(mergedItems);
+    });
+
+    signalrService.itemDeleted.subscribe((removedId) => {
+      const filteredItems = this.items.filter((x) => x.id !== removedId);
+      this.setSortedItems(filteredItems);
     });
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.http.get<Todo[]>(`${environment.apiUrl}todos/`).subscribe((items) => {
-      this.items = items;
+      this.setSortedItems(items);
     });
 
     this.form = new FormGroup({
@@ -36,7 +46,7 @@ export class AppComponent implements OnInit {
     });
   }
 
-  addTodo() {
+  addTodo(): void {
     const toSend = { value: this.form.value.todoValue };
 
     this.http
@@ -46,10 +56,33 @@ export class AppComponent implements OnInit {
     this.form.reset();
   }
 
-  markAsDone(item: Todo) {
-    item.done = true;
+  deleteTodo(item: Todo): void {
+    this.http
+    .delete(`${environment.apiUrl}todos/${item.id}`)
+    .subscribe();
+  }
+
+  markAsDone(item: Todo): void {
+    item.done = !item.done;
     this.http
       .put(`${environment.apiUrl}todos/${item.id}`, item)
       .subscribe(() => console.log('updated'));
+  }
+
+  private setSortedItems(items: Todo[]): void {
+    const sortedItems = items.sort(this.sortByDone());
+    this.items = [...sortedItems];
+  }
+
+  private sortByDone(): (a: Todo, b: Todo) => number {
+    return (a: Todo, b: Todo) => {
+      if (a.done < b.done) {
+        return -1;
+      }
+      if (a.done > b.done) {
+        return 1;
+      }
+      return 0;
+    };
   }
 }
